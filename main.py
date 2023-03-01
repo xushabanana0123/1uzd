@@ -1,42 +1,41 @@
-import datetime as time
-
+import csv
+import datetime
 
 class Rekins:
-    def __init__(self, client: str, dedication: str, size: list, material: float):
-        self.creation_time = time.datetime.now()
-        self.client = client
-        self.dedication = dedication
-        self.size = size
-        self.material = material
+  def __init__(self, klients, veltijums, izmers, materials): 
+    self.klients = klients
+    self.veltijums = veltijums
+    self.izmers = izmers
+    self.materials = materials
+    self.laiks = datetime.datetime.now()
+    self.summa = self.aprekins()
 
-        # method has to be booted on initialization
-        self.total = self.aprekins()
+  def izdrukat(self):
+    print("=== Rekins ===")
+    print(f"klients: {self.klients}")
+    print(f"Veltijums: {self.veltijums}")
+    print(f"Izmers: {self.izmers}")
+    print (f"Materials: {self.materials}")
+    print(f"Laiks: {self.laiks}")
+    print (f"Summa: {self.summa}")
 
-        # all data to print out
-        self.properties = {
-            "time": self.creation_time,
-            "client": self.client,
-            "dedication": self.dedication,
-            "size": self.size,
-            "material": self.material,
-            "total": self.total,
-        }
+  def aprekins(self):
+    return 42.0
 
-    def print(self):
-        print(self.properties, sep="\n")
-        return None
+  def saglabat (self):
+    filename = f"{self.klients}_ {self.laiks.date()}.csv"
+    with open(filename, mode='w', newline='') as file:
+      writer = csv.writer(file)
+      writer.writerow(["Klients", "Veltijums", "Izmers", "Materials", "Laiks", "Summa"])
+      writer.writerow([self.klients, self.veltijums, self.izmers, self.materials, self.laiks, self.summa])
 
-    def aprekins(self):
-        
-        return 0
-
-
-if __name__ == '__main__':
-    a = input("name: ")
-    b = input("dedication:")
-    c = []
-    for i in range(1, 4):
-        c.append(input(f"size{i} (int): "))
-    d = float(input("material (float): "))
-    instance = Rekins(a, b, c, d)
-    instance.print()
+#
+print("=== Izveidojam jaunu saskaitu ===")
+klients = input("Klients: ")
+veltijums = input ("Veltijums: ")
+izmers = input("Izmers (3 veseli skaitli, atdaliti ar komatiem): ")
+izmers = [int(x.strip()) for x in izmers.split(",")]
+materials = float (input("Materials: "))
+saskaita_objekts = Rekins(klients, veltijums, izmers, materials)
+saskaita_objekts.saglabat()
+saskaita_objekts.izdrukat()
